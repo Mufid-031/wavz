@@ -4,6 +4,7 @@ import '../../core/constants/app_colors.dart';
 import '../../core/constants/app_icons.dart';
 import '../../core/constants/app_spacing.dart';
 import '../../core/router/route_names.dart';
+import 'mini_player.dart';
 
 class MainShell extends StatelessWidget {
   const MainShell({
@@ -21,7 +22,13 @@ class MainShell extends StatelessWidget {
       body: Stack(
         children: [
           child,
-          // TODO: Add MiniPlayer here later
+          // MiniPlayer
+          const Positioned(
+            left: 0,
+            right: 0,
+            bottom: AppSpacing.sm,
+            child: MiniPlayer(),
+          ),
         ],
       ),
       bottomNavigationBar: NavigationBar(
