@@ -1,25 +1,25 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'auth_repository.dart';
+part of 'home_provider.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$authRepositoryHash() => r'9c9f8c080c6e80a4d83a8ec36e78df5a69b1918c';
+String _$trendingSongsHash() => r'98cea6cc4e24eb2936cfb07cf28229b04a2e2a72';
 
-/// See also [authRepository].
-@ProviderFor(authRepository)
-final authRepositoryProvider = AutoDisposeProvider<AuthRepository>.internal(
-  authRepository,
-  name: r'authRepositoryProvider',
+/// See also [trendingSongs].
+@ProviderFor(trendingSongs)
+final trendingSongsProvider = AutoDisposeFutureProvider<List<Song>>.internal(
+  trendingSongs,
+  name: r'trendingSongsProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$authRepositoryHash,
+      : _$trendingSongsHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef AuthRepositoryRef = AutoDisposeProviderRef<AuthRepository>;
+typedef TrendingSongsRef = AutoDisposeFutureProviderRef<List<Song>>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

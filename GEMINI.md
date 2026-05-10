@@ -981,7 +981,7 @@ test: add unit test for player notifier
 ### Status Terakhir
 - **Terakhir dikerjakan:** Phase 4 Foundation (Network Layer with Dio, Auth Notifier with Persistence, Login/Logout Logic)
 - **Tanggal:** Sunday, May 10, 2026
-- **Git commit terakhir:** c56c129
+- **Git commit terakhir:** ee157ea
 
 ### Phase Checklist
 - [x] Phase 1 — Setup & Struktur Folder

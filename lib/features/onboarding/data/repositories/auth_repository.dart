@@ -1,33 +1,37 @@
-import 'package:dio/dio.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import '../../../../core/network/dio_client.dart';
+import '../services/supabase_service.dart';
 
 part 'auth_repository.g.dart';
 
 class AuthRepository {
-  AuthRepository(this._dio);
-  final Dio _dio;
+  AuthRepository(this._client);
+  final SupabaseClient _client;
 
-  Future<String> login(String email, String password) async {
-    // Simulated API call
-    await Future.delayed(const Duration(seconds: 1));
-    if (email == 'test@wavz.com' && password == 'password') {
-      return 'fake-jwt-token';
-    }
-    throw Exception('Invalid credentials');
+  Future<AuthResponse> login(String email, String password) async {
+    return await _client.auth.signInWithPassword(
+      email: email,
+      password: password,
+    );
   }
 
-  Future<void> register(String name, String email, String password) async {
-    await Future.delayed(const Duration(seconds: 1));
+  Future<AuthResponse> register(String email, String password) async {
+    return await _client.auth.signUp(
+      email: email,
+      password: password,
+    );
   }
 
   Future<void> logout() async {
-    await Future.delayed(const Duration(milliseconds: 500));
+    await _client.auth.signOut();
   }
+
+  Session? get currentSession => _client.auth.currentSession;
+  User? get currentUser => _client.auth.currentUser;
 }
 
 @riverpod
 AuthRepository authRepository(AuthRepositoryRef ref) {
-  final dio = ref.watch(dioClientProvider);
-  return AuthRepository(dio);
+  final client = ref.watch(supabaseClientProvider);
+  return AuthRepository(client);
 }
