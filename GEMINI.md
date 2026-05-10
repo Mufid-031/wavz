@@ -39,6 +39,16 @@
 - Setiap fitur harus **self-contained** di dalam foldernya sendiri.
 - Hindari logika bisnis di dalam widget — delegasikan ke provider/notifier.
 
+### Aturan Akhir Sesi
+Setiap kali menyelesaikan satu langkah dari Development Flow:
+1. Update checklist di section "Development Progress" — centang item yang selesai
+2. Isi "Terakhir dikerjakan" dengan nama step yang baru selesai
+3. Isi "Tanggal" dengan tanggal hari ini
+4. Jalankan: git add . && git commit -m "feat: [nama step yang selesai]"
+5. Tulis ringkasan singkat di "Catatan Penting" jika ada keputusan teknis baru
+
+Lakukan ini TANPA perlu diminta. Ini wajib setelah setiap step selesai.
+
 ---
 
 ## 📁 Struktur Project
@@ -962,6 +972,38 @@ test: add unit test for player notifier
 - ❌ Commit kode yang gagal `flutter analyze`
 
 ---
+
+## 📊 Development Progress
+
+> Section ini di-update otomatis oleh Gemini setiap selesai satu langkah.
+> Baca section ini PERTAMA KALI di setiap sesi baru sebelum melakukan apapun.
+
+### Status Terakhir
+- **Terakhir dikerjakan:** Phase 4 — Data & Logic (Audio Service & Player Notifier integration)
+- **Tanggal:** Sunday, May 10, 2026
+- **Git commit terakhir:** 96bc132
+
+### Phase Checklist
+- [x] Phase 1 — Setup & Struktur Folder
+- [x] Phase 2 — Design System (colors, typography, spacing, theme)
+- [x] Phase 2 — Shared Widgets
+- [x] Phase 3 — Onboarding & Auth Screens
+- [x] Phase 3 — Home Screen
+- [x] Phase 3 — Now Playing Screen
+- [x] Phase 3 — Mini Player
+- [x] Phase 3 — Search Screen
+- [x] Phase 3 — Library Screen
+- [x] Phase 3 — Artist Profile Screen
+- [x] Phase 3 — Playlist & Album Detail
+- [x] Phase 4 — Riverpod Providers
+- [x] Phase 4 — Audio Service (just_audio)
+- [x] Phase 4 — Sambungkan UI ke Provider
+- [ ] Phase 5 — Animasi & Polish
+- [ ] Phase 5 — Edge Cases & Review
+- [ ] Phase 5 — Build Final
+
+### Catatan Penting
+<!-- Gemini akan isi ini jika ada keputusan teknis penting yang dibuat -->
 
 *GEMINI.md ini adalah living document. Update setiap kali ada perubahan arsitektur signifikan.*
 *Last updated: project initialization*
