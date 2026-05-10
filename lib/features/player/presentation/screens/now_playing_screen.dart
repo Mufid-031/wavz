@@ -6,6 +6,7 @@ import '../../../../core/constants/app_icons.dart';
 import '../../../../core/constants/app_spacing.dart';
 import '../../../../core/constants/app_typography.dart';
 import '../../../../core/utils/duration_formatter.dart';
+import '../../../../shared/widgets/animated_album_art.dart';
 import '../providers/player_provider.dart';
 
 class NowPlayingScreen extends ConsumerWidget {
@@ -21,7 +22,7 @@ class NowPlayingScreen extends ConsumerWidget {
       loading: () => const Scaffold(body: Center(child: CircularProgressIndicator())),
       error: (message) => Scaffold(body: Center(child: Text('Error: $message'))),
       playing: (song, position, total, isPlaying, isShuffling, repeatMode, queue) {
-        final dominantColor = AppColors.primaryStart; // TODO: Use PaletteGenerator
+        final dominantColor = AppColors.primaryStart; // TODO: Pass dominant color from AnimatedAlbumArt if needed
 
         return Scaffold(
           backgroundColor: AppColors.background,
@@ -71,24 +72,7 @@ class NowPlayingScreen extends ConsumerWidget {
                     const Spacer(),
 
                     // Album Art
-                    Container(
-                      width: MediaQuery.of(context).size.width * 0.8,
-                      height: MediaQuery.of(context).size.width * 0.8,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        boxShadow: [
-                          BoxShadow(
-                            color: dominantColor.withOpacity(0.6),
-                            blurRadius: 60,
-                            spreadRadius: -10,
-                          ),
-                        ],
-                        image: DecorationImage(
-                          image: NetworkImage(song.thumbnailUrl),
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    ),
+                    AnimatedAlbumArt(imageUrl: song.thumbnailUrl),
 
                     const Spacer(),
 

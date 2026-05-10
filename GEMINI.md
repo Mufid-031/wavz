@@ -979,9 +979,9 @@ test: add unit test for player notifier
 > Baca section ini PERTAMA KALI di setiap sesi baru sebelum melakukan apapun.
 
 ### Status Terakhir
-- **Terakhir dikerjakan:** Phase 4 — Data & Logic (Audio Service & Player Notifier integration)
+- **Terakhir dikerjakan:** Phase 5 — Animasi & Polish (Album Art Bloom & Skeleton Widgets)
 - **Tanggal:** Sunday, May 10, 2026
-- **Git commit terakhir:** 96bc132
+- **Git commit terakhir:** 77b7ec9
 
 ### Phase Checklist
 - [x] Phase 1 — Setup & Struktur Folder
@@ -998,7 +998,7 @@ test: add unit test for player notifier
 - [x] Phase 4 — Riverpod Providers
 - [x] Phase 4 — Audio Service (just_audio)
 - [x] Phase 4 — Sambungkan UI ke Provider
-- [ ] Phase 5 — Animasi & Polish
+- [x] Phase 5 — Animasi & Polish
 - [ ] Phase 5 — Edge Cases & Review
 - [ ] Phase 5 — Build Final
 

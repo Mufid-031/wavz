@@ -1,20 +1,20 @@
-import 'package:audio_service/audio_service.dart';
+import 'package:audio_service/audio_service.dart' as pkg;
 import 'package:just_audio/just_audio.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../../domain/entities/song.dart';
 import '../../domain/entities/repeat_mode.dart';
-import 'player_state.dart';
-import '../../../../core/services/audio_service.dart';
+import 'player_state.dart' as state_model;
+import '../../../../core/services/audio_service.dart' as local_service;
 
 part 'player_provider.g.dart';
 
 @riverpod
 class PlayerNotifier extends _$PlayerNotifier {
-  late AudioService _audioService;
+  late local_service.AudioService _audioService;
 
   @override
-  PlayerState build() {
-    _audioService = ref.watch(audioServiceProvider);
+  state_model.PlayerState build() {
+    _audioService = ref.watch(local_service.audioServiceProvider);
     
     // Listen to streams
     _audioService.player.positionStream.listen((pos) {
@@ -30,17 +30,18 @@ class PlayerNotifier extends _$PlayerNotifier {
     });
 
     _audioService.player.currentIndexStream.listen((index) {
-      if (index != null && state is _Playing) {
-        final currentState = state as _Playing;
-        if (index < currentState.queue.length) {
-          state = currentState.copyWith(
-            currentSong: currentState.queue[index],
-          );
-        }
-      }
+      state.mapOrNull(
+        playing: (s) {
+          if (index != null && index < s.queue.length) {
+            state = s.copyWith(
+              currentSong: s.queue[index],
+            );
+          }
+        },
+      );
     });
 
-    return const PlayerState.initial();
+    return const state_model.PlayerState.initial();
   }
 
   void _updateState({
@@ -60,12 +61,12 @@ class PlayerNotifier extends _$PlayerNotifier {
   }
 
   Future<void> playSong(Song song, {List<Song>? queue}) async {
-    state = const PlayerState.loading();
+    state = const state_model.PlayerState.loading();
     
     final songQueue = queue ?? [song];
     final sources = songQueue.map((s) => AudioSource.uri(
       Uri.parse(s.audioUrl),
-      tag: MediaItem(
+      tag: pkg.MediaItem(
         id: s.id,
         album: s.album,
         title: s.title,
@@ -83,7 +84,7 @@ class PlayerNotifier extends _$PlayerNotifier {
     
     await _audioService.play();
     
-    state = PlayerState.playing(
+    state = state_model.PlayerState.playing(
       currentSong: song,
       position: Duration.zero,
       total: song.duration,
