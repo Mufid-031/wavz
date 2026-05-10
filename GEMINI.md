@@ -979,9 +979,9 @@ test: add unit test for player notifier
 > Baca section ini PERTAMA KALI di setiap sesi baru sebelum melakukan apapun.
 
 ### Status Terakhir
-- **Terakhir dikerjakan:** Phase 3 & 4 Completion (Lyrics, Queue, Playlist/Album/Artist details, Settings, Equalizer, Subscription screens)
+- **Terakhir dikerjakan:** Phase 4 Foundation (Network Layer with Dio, Auth Notifier with Persistence, Login/Logout Logic)
 - **Tanggal:** Sunday, May 10, 2026
-- **Git commit terakhir:** [TBD]
+- **Git commit terakhir:** c56c129
 
 ### Phase Checklist
 - [x] Phase 1 — Setup & Struktur Folder
@@ -995,11 +995,12 @@ test: add unit test for player notifier
 - [x] Phase 3 — Library Screen
 - [x] Phase 3 — Artist Profile Screen
 - [x] Phase 3 — Playlist & Album Detail
-- [x] Phase 4 — Riverpod Providers
+- [x] Phase 4 — Riverpod Providers (Auth, Player, Home)
 - [x] Phase 4 — Audio Service (just_audio)
 - [x] Phase 4 — Sambungkan UI ke Provider
+- [x] Phase 4 — Network & Auth Logic (Dio, Persistence)
 - [x] Phase 5 — Animasi & Polish
-- [ ] Phase 5 — Edge Cases & Review
+- [ ] Phase 5 — Edge Cases & Review (Connectivity, Error Handling)
 - [ ] Phase 5 — Build Final
 
 ### Catatan Penting

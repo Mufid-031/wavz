@@ -1,22 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../core/constants/app_colors.dart';
 import '../../../../core/constants/app_spacing.dart';
 import '../../../../core/constants/app_typography.dart';
 import '../../../../core/router/route_names.dart';
+import '../../../../core/constants/app_strings.dart';
 import '../../../../shared/widgets/gradient_text.dart';
 import '../../../../shared/widgets/wavz_button.dart';
 import '../../../../shared/widgets/wavz_card.dart';
 import '../../../../shared/widgets/wavz_text_field.dart';
+import '../providers/auth_provider.dart';
 
-class LoginScreen extends StatefulWidget {
+class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  ConsumerState<LoginScreen> createState() => _LoginScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _LoginScreenState extends ConsumerState<LoginScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
 
@@ -27,8 +30,35 @@ class _LoginScreenState extends State<LoginScreen> {
     super.dispose();
   }
 
+  void _onLogin() async {
+    final email = _emailController.text.trim();
+    final password = _passwordController.text.trim();
+
+    if (email.isEmpty || password.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Please fill in all fields')),
+      );
+      return;
+    }
+
+    await ref.read(authNotifierProvider.notifier).login(email, password);
+  }
+
   @override
   Widget build(BuildContext context) {
+    ref.listen(authNotifierProvider, (previous, next) {
+      next.maybeWhen(
+        authenticated: (_) => context.go(RouteNames.home),
+        error: (message) => ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(message)),
+        ),
+        orElse: () {},
+      );
+    });
+
+    final authState = ref.watch(authNotifierProvider);
+    final isLoading = authState.maybeWhen(loading: () => true, orElse: () => false);
+
     return Scaffold(
       backgroundColor: AppColors.background,
       body: SafeArea(
@@ -98,9 +128,10 @@ class _LoginScreenState extends State<LoginScreen> {
 
               // CTA Button
               WavzButton(
-                onPressed: () => context.go(RouteNames.home),
+                onPressed: isLoading ? null : _onLogin,
                 label: AppStrings.login,
                 width: double.infinity,
+                isLoading: isLoading,
               ),
 
               const SizedBox(height: AppSpacing.xl3),

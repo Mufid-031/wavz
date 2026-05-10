@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../core/constants/app_colors.dart';
 import '../../../../core/constants/app_icons.dart';
 import '../../../../core/constants/app_spacing.dart';
 import '../../../../core/constants/app_typography.dart';
 import '../../../../core/router/route_names.dart';
+import '../../onboarding/presentation/providers/auth_provider.dart';
 
-class ProfileScreen extends StatelessWidget {
+class ProfileScreen extends ConsumerWidget {
   const ProfileScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBar(
@@ -67,7 +69,7 @@ class ProfileScreen extends StatelessWidget {
               const SizedBox(height: AppSpacing.xl6),
 
               // Settings Section
-              const _SettingsSection(),
+              _SettingsSection(ref: ref),
 
               const SizedBox(height: AppSpacing.xl4),
             ],
@@ -108,7 +110,8 @@ class ProfileScreen extends StatelessWidget {
 }
 
 class _SettingsSection extends StatelessWidget {
-  const _SettingsSection();
+  const _SettingsSection({required this.ref});
+  final WidgetRef ref;
 
   @override
   Widget build(BuildContext context) {
@@ -154,7 +157,12 @@ class _SettingsSection extends StatelessWidget {
           icon: Icons.logout_rounded,
           label: 'Logout',
           labelColor: AppColors.error,
-          onTap: () {},
+          onTap: () async {
+            await ref.read(authNotifierProvider.notifier).logout();
+            if (context.mounted) {
+              context.go(RouteNames.login);
+            }
+          },
           showChevron: false,
         ),
       ],
