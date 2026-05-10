@@ -979,9 +979,9 @@ test: add unit test for player notifier
 > Baca section ini PERTAMA KALI di setiap sesi baru sebelum melakukan apapun.
 
 ### Status Terakhir
-- **Terakhir dikerjakan:** Phase 5 — Animasi & Polish (Album Art Bloom & Skeleton Widgets)
+- **Terakhir dikerjakan:** Phase 3 & 4 Completion (Lyrics, Queue, Playlist/Album/Artist details, Settings, Equalizer, Subscription screens)
 - **Tanggal:** Sunday, May 10, 2026
-- **Git commit terakhir:** 77b7ec9
+- **Git commit terakhir:** [TBD]
 
 ### Phase Checklist
 - [x] Phase 1 — Setup & Struktur Folder

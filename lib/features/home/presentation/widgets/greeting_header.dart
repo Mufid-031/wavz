@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import '../../../../core/constants/app_colors.dart';
 import '../../../../core/constants/app_icons.dart';
 import '../../../../core/constants/app_spacing.dart';
 import '../../../../core/constants/app_typography.dart';
+import '../../../../core/router/route_names.dart';
 
 class GreetingHeader extends StatelessWidget {
   const GreetingHeader({
@@ -32,14 +34,17 @@ class GreetingHeader extends StatelessWidget {
           ),
         ),
         IconButton(
-          onPressed: () {},
+          onPressed: () => context.push(RouteNames.notifications),
           icon: const Icon(AppIcons.bell, color: AppColors.textSecondary),
         ),
         const SizedBox(width: AppSpacing.sm),
-        const CircleAvatar(
-          radius: 18,
-          backgroundColor: AppColors.surfaceHighest,
-          child: Icon(AppIcons.profile, color: AppColors.textMuted, size: 20),
+        GestureDetector(
+          onTap: () => context.go(RouteNames.profile),
+          child: const CircleAvatar(
+            radius: 18,
+            backgroundColor: AppColors.surfaceHighest,
+            child: Icon(AppIcons.profile, color: AppColors.textMuted, size: 20),
+          ),
         ),
       ],
     );

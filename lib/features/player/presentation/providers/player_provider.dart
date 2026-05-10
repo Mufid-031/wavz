@@ -111,7 +111,14 @@ class PlayerNotifier extends _$PlayerNotifier {
     await _audioService.skipToNext();
   }
 
-  Future<void> skipPrevious() async {
+  Future<void> skipToPrevious() async {
     await _audioService.skipToPrevious();
+  }
+
+  Future<void> skipToQueueIndex(int index) async {
+    await _audioService.player.seek(Duration.zero, index: index);
+    if (!_audioService.player.playing) {
+      await _audioService.play();
+    }
   }
 }

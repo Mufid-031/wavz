@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import '../../../../core/constants/app_colors.dart';
 import '../../../../core/constants/app_icons.dart';
 import '../../../../core/constants/app_spacing.dart';
 import '../../../../core/constants/app_typography.dart';
+import '../../../../core/router/route_names.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -11,12 +13,23 @@ class ProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.background,
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        actions: [
+          IconButton(
+            onPressed: () => context.push(RouteNames.settings),
+            icon: const Icon(AppIcons.settings, color: AppColors.textPrimary),
+          ),
+          const SizedBox(width: AppSpacing.sm),
+        ],
+      ),
       body: SafeArea(
         child: SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
           child: Column(
             children: [
-              const SizedBox(height: AppSpacing.xl4),
+              const SizedBox(height: AppSpacing.xl2),
 
               // Avatar
               const CircleAvatar(
@@ -122,14 +135,14 @@ class _SettingsSection extends StatelessWidget {
           onTap: () {},
         ),
         _SettingItem(
-          icon: Icons.notifications_none_rounded,
+          icon: AppIcons.bell,
           label: 'Notifications',
-          onTap: () {},
+          onTap: () => context.push(RouteNames.notifications),
         ),
         _SettingItem(
           icon: Icons.security_rounded,
           label: 'Privacy & Security',
-          onTap: () {},
+          onTap: () => context.push(RouteNames.settings),
         ),
         _SettingItem(
           icon: Icons.help_outline_rounded,

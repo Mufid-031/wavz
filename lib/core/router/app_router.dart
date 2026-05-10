@@ -9,9 +9,20 @@ import '../../features/onboarding/presentation/screens/register_screen.dart';
 import '../../features/onboarding/presentation/screens/preference_picker_screen.dart';
 import '../../features/home/presentation/screens/home_screen.dart';
 import '../../features/search/presentation/screens/search_screen.dart';
+import '../../features/search/presentation/screens/search_results_screen.dart';
 import '../../features/library/presentation/screens/library_screen.dart';
 import '../../features/profile/presentation/screens/profile_screen.dart';
 import '../../features/player/presentation/screens/now_playing_screen.dart';
+import '../../features/player/presentation/screens/lyrics_screen.dart';
+import '../../features/player/presentation/screens/queue_screen.dart';
+import '../../features/profile/presentation/screens/notifications_screen.dart';
+import '../../features/settings/presentation/screens/settings_screen.dart';
+import '../../features/settings/presentation/screens/equalizer_screen.dart';
+import '../../features/settings/presentation/screens/subscription_screen.dart';
+import '../../features/library/presentation/screens/playlist_detail_screen.dart';
+import '../../features/library/presentation/screens/album_detail_screen.dart';
+import '../../features/library/presentation/screens/create_playlist_screen.dart';
+import '../../features/artist/presentation/screens/artist_profile_screen.dart';
 
 import '../../shared/widgets/main_shell.dart';
 
@@ -64,6 +75,62 @@ GoRouter appRouter(AppRouterRef ref) {
           );
         },
       ),
+      GoRoute(
+        path: RouteNames.lyrics,
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => const LyricsScreen(),
+      ),
+      GoRoute(
+        path: RouteNames.queue,
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => const QueueScreen(),
+      ),
+      GoRoute(
+        path: RouteNames.notifications,
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => const NotificationsScreen(),
+      ),
+      GoRoute(
+        path: RouteNames.settings,
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => const SettingsScreen(),
+      ),
+      GoRoute(
+        path: RouteNames.equalizer,
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => const EqualizerScreen(),
+      ),
+      GoRoute(
+        path: RouteNames.subscription,
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => const SubscriptionScreen(),
+      ),
+      GoRoute(
+        path: RouteNames.playlistDetail,
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => PlaylistDetailScreen(
+          id: state.pathParameters['id'] ?? '',
+        ),
+      ),
+      GoRoute(
+        path: RouteNames.albumDetail,
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => AlbumDetailScreen(
+          id: state.pathParameters['id'] ?? '',
+        ),
+      ),
+      GoRoute(
+        path: RouteNames.artistProfile,
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => ArtistProfileScreen(
+          id: state.pathParameters['id'] ?? '',
+        ),
+      ),
+      GoRoute(
+        path: RouteNames.createPlaylist,
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => const CreatePlaylistScreen(),
+      ),
       ShellRoute(
         navigatorKey: _shellNavigatorKey,
         builder: (context, state, child) => MainShell(child: child),
@@ -75,6 +142,14 @@ GoRouter appRouter(AppRouterRef ref) {
           GoRoute(
             path: RouteNames.search,
             builder: (context, state) => const SearchScreen(),
+            routes: [
+              GoRoute(
+                path: 'results',
+                builder: (context, state) => SearchResultsScreen(
+                  query: state.uri.queryParameters['q'] ?? '',
+                ),
+              ),
+            ],
           ),
           GoRoute(
             path: RouteNames.library,

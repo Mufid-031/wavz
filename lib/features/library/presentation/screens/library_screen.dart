@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import '../../../../core/constants/app_colors.dart';
 import '../../../../core/constants/app_icons.dart';
 import '../../../../core/constants/app_spacing.dart';
 import '../../../../core/constants/app_typography.dart';
+import '../../../../core/router/route_names.dart';
 import '../../../../shared/widgets/song_tile.dart';
 
 class LibraryScreen extends StatelessWidget {
@@ -28,7 +30,7 @@ class LibraryScreen extends StatelessWidget {
                       style: AppTypography.displayLG,
                     ),
                     IconButton(
-                      onPressed: () {},
+                      onPressed: () => context.push(RouteNames.createPlaylist),
                       icon: const Icon(AppIcons.add, color: AppColors.textPrimary),
                     ),
                   ],
@@ -66,9 +68,9 @@ class LibraryScreen extends StatelessWidget {
               Expanded(
                 child: TabBarView(
                   children: [
-                    _buildPlaylistsTab(),
-                    const Center(child: Text('Albums Tab')),
-                    const Center(child: Text('Artists Tab')),
+                    _buildPlaylistsTab(context),
+                    _buildAlbumsTab(context),
+                    _buildArtistsTab(context),
                     const Center(child: Text('Downloads Tab')),
                   ],
                 ),
@@ -80,13 +82,13 @@ class LibraryScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildPlaylistsTab() {
+  Widget _buildPlaylistsTab(BuildContext context) {
     return ListView(
       physics: const BouncingScrollPhysics(),
       children: [
         // Liked Songs
         ListTile(
-          onTap: () {},
+          onTap: () => context.push(RouteNames.playlistDetail.replaceAll(':id', 'liked')),
           contentPadding: const EdgeInsets.symmetric(horizontal: AppSpacing.xl, vertical: AppSpacing.sm),
           leading: Container(
             height: 56,
@@ -108,23 +110,25 @@ class LibraryScreen extends StatelessWidget {
         // Create Playlist
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: AppSpacing.xl, vertical: AppSpacing.sm),
-          child: Container(
-            height: 56,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(8),
-              border: Border.all(color: AppColors.divider, width: 1, style: BorderStyle.none), // Placeholder for dashed
-              color: AppColors.surface,
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Icon(AppIcons.add, color: AppColors.primaryStart, size: 20),
-                const SizedBox(width: AppSpacing.sm),
-                Text(
-                  'Create New Playlist',
-                  style: AppTypography.labelLG.copyWith(color: AppColors.primaryStart),
-                ),
-              ],
+          child: GestureDetector(
+            onTap: () => context.push(RouteNames.createPlaylist),
+            child: Container(
+              height: 56,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8),
+                color: AppColors.surface,
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Icon(AppIcons.add, color: AppColors.primaryStart, size: 20),
+                  const SizedBox(width: AppSpacing.sm),
+                  Text(
+                    'Create New Playlist',
+                    style: AppTypography.labelLG.copyWith(color: AppColors.primaryStart),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
@@ -137,10 +141,41 @@ class LibraryScreen extends StatelessWidget {
           (index) => SongTile(
             title: 'Playlist #$index',
             artist: 'Playlist · 24 songs',
-            onTap: () {},
+            onTap: () => context.push(RouteNames.playlistDetail.replaceAll(':id', '$index')),
           ),
         ),
       ],
+    );
+  }
+
+  Widget _buildAlbumsTab(BuildContext context) {
+    return ListView.builder(
+      padding: const EdgeInsets.symmetric(vertical: AppSpacing.md),
+      itemCount: 5,
+      itemBuilder: (context, index) => SongTile(
+        title: 'Album #$index',
+        artist: 'The Weeknd · 2024',
+        onTap: () => context.push(RouteNames.albumDetail.replaceAll(':id', '$index')),
+      ),
+    );
+  }
+
+  Widget _buildArtistsTab(BuildContext context) {
+    return ListView.builder(
+      padding: const EdgeInsets.symmetric(vertical: AppSpacing.md),
+      itemCount: 5,
+      itemBuilder: (context, index) => ListTile(
+        onTap: () => context.push(RouteNames.artistProfile.replaceAll(':id', '$index')),
+        contentPadding: const EdgeInsets.symmetric(horizontal: AppSpacing.xl, vertical: AppSpacing.sm),
+        leading: const CircleAvatar(
+          radius: 28,
+          backgroundColor: AppColors.surfaceHighest,
+          child: Icon(AppIcons.profile, color: AppColors.textMuted),
+        ),
+        title: Text('Artist #$index', style: AppTypography.labelLG),
+        subtitle: Text('Verified Artist', style: AppTypography.bodySM.copyWith(color: AppColors.textSecondary)),
+        trailing: const Icon(AppIcons.chevronRight, color: AppColors.textMuted, size: 20),
+      ),
     );
   }
 }

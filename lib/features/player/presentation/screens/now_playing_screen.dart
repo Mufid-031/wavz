@@ -6,6 +6,7 @@ import '../../../../core/constants/app_icons.dart';
 import '../../../../core/constants/app_spacing.dart';
 import '../../../../core/constants/app_typography.dart';
 import '../../../../core/utils/duration_formatter.dart';
+import '../../../../core/router/route_names.dart';
 import '../../../../shared/widgets/animated_album_art.dart';
 import '../providers/player_provider.dart';
 
@@ -22,7 +23,7 @@ class NowPlayingScreen extends ConsumerWidget {
       loading: () => const Scaffold(body: Center(child: CircularProgressIndicator())),
       error: (message) => Scaffold(body: Center(child: Text('Error: $message'))),
       playing: (song, position, total, isPlaying, isShuffling, repeatMode, queue) {
-        final dominantColor = AppColors.primaryStart; // TODO: Pass dominant color from AnimatedAlbumArt if needed
+        final dominantColor = AppColors.primaryStart; // TODO: Use PaletteGenerator
 
         return Scaffold(
           backgroundColor: AppColors.background,
@@ -54,7 +55,10 @@ class NowPlayingScreen extends ConsumerWidget {
                           children: [
                             Text(
                               'PLAYING FROM',
-                              style: AppTypography.bodySM.copyWith(color: AppColors.textMuted, letterSpacing: 1.5),
+                              style: AppTypography.bodySM.copyWith(
+                                color: AppColors.textMuted,
+                                letterSpacing: 1.5,
+                              ),
                             ),
                             Text(
                               song.album,
@@ -156,7 +160,7 @@ class NowPlayingScreen extends ConsumerWidget {
                       children: [
                         const Icon(AppIcons.shuffle, color: AppColors.textMuted, size: 24),
                         IconButton(
-                          onPressed: () => playerNotifier.skipPrevious(),
+                          onPressed: () => playerNotifier.skipToPrevious(),
                           icon: const Icon(AppIcons.previous, color: AppColors.textPrimary, size: 32),
                         ),
                         // Play Button
@@ -190,8 +194,16 @@ class NowPlayingScreen extends ConsumerWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        _buildBottomAction(AppIcons.lyrics, 'Lyrics'),
-                        _buildBottomAction(AppIcons.queue, 'Queue'),
+                        _buildBottomAction(
+                          AppIcons.lyrics,
+                          'Lyrics',
+                          onTap: () => context.push(RouteNames.lyrics),
+                        ),
+                        _buildBottomAction(
+                          AppIcons.queue,
+                          'Queue',
+                          onTap: () => context.push(RouteNames.queue),
+                        ),
                       ],
                     ),
                     const SizedBox(height: AppSpacing.lg),
@@ -205,16 +217,20 @@ class NowPlayingScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildBottomAction(IconData icon, String label) {
-    return Row(
-      children: [
-        Icon(icon, color: AppColors.textSecondary, size: 20),
-        const SizedBox(width: AppSpacing.xs),
-        Text(
-          label,
-          style: AppTypography.labelSM.copyWith(color: AppColors.textSecondary),
-        ),
-      ],
+  Widget _buildBottomAction(IconData icon, String label, {VoidCallback? onTap}) {
+    return GestureDetector(
+      onTap: onTap,
+      behavior: HitTestBehavior.opaque,
+      child: Row(
+        children: [
+          Icon(icon, color: AppColors.textSecondary, size: 20),
+          const SizedBox(width: AppSpacing.xs),
+          Text(
+            label,
+            style: AppTypography.labelSM.copyWith(color: AppColors.textSecondary),
+          ),
+        ],
+      ),
     );
   }
 }
